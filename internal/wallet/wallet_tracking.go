@@ -85,12 +85,7 @@ func StartTracking() error {
 			s := clonedSlice.BeginParse()
 
 			opcode, err := slice.LoadUInt(32)
-			if err != nil {
-				logrus.Info("opcode not found or message too short – treating as raw TON transfer")
-				logrus.Infof("📥 TON TRANSFER: from %s, amount: %s TON", internal.SrcAddr, internal.Amount.TON())
-				continue
-			}
-
+			
 			switch opcode {
 				case 0: // TON + текст
 					msg, err := slice.LoadStringSnake()
@@ -98,7 +93,7 @@ func StartTracking() error {
 						logrus.Info("load string snake error")
 						continue
 					}
-					logrus.Infof("📥 INCOMING TON TRANSFER with text: from %s, amount: %s TON, msg: %s", internal.SrcAddr, internal.Amount.TON(), msg)
+					logrus.Infof("📥 INCOMING TON TRANSFER: from %s, amount: %s TON, msg: %s", internal.SrcAddr, internal.Amount.TON(), msg)
 
 				case 0x7362d09c: // Jetton transfer_notification$transfer_notification query_id:uint64 amount:(VarUInteger 16) sender:MsgAddress forward_payload:Cell = TransferNotification;
 					var notif structures.JettonNotification
