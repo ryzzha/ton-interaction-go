@@ -25,7 +25,7 @@ func StartTracking() error {
 	}
 
 	api := ton.NewAPIClient(liteclient)
-
+ 
 	words := app.CFG.Wallet.SEED
 	wall, err := wallet.FromSeed(api, words, wallet.V4R2)
 	if err != nil {
