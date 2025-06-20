@@ -13,10 +13,6 @@ func InitApp() error {
 		return err
 	}
 
-	// if err := InitDatabase(); err != nil {
-	// 	return err
-	// }
-
 	InitTlb()
 
 	return nil

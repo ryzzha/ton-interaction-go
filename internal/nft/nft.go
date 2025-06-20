@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/hex"
 	"math/big"
-	"ton-lessons/internal/app"
+	"ton-utils-go/internal/app"
 
 	"github.com/sirupsen/logrus"
 	"github.com/xssnick/tonutils-go/address"
@@ -16,13 +16,7 @@ import (
 	"github.com/xssnick/tonutils-go/tvm/cell"
 )
 
-func main() {
-	if err := run(); err != nil {
-		panic(err)
-	}
-}
-
-func run() error {
+func NftActions() error {
 	if err := app.InitApp(); err != nil {
 		return err
 	}
