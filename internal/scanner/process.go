@@ -54,28 +54,28 @@ func (s *Scanner) processTransaction(
 		}
 	}
 
-	// switch trans.IO.In.MsgType {
-	// case tlb.MsgTypeInternal:
-	// 	inTrans := trans.IO.In.AsInternal()
+	switch trans.IO.In.MsgType {
+	case tlb.MsgTypeInternal:
+		inTrans := trans.IO.In.AsInternal()
 
-	// 	if err := s.processNftContract(
-	// 		dbtx,
-	// 		master,
-	// 		inTrans.DstAddr,
-	// 	); err != nil {
-	// 		return err
-	// 	}
-	// case tlb.MsgTypeExternalIn:
-	// 	extInTrans := trans.IO.In.AsExternalIn()
+		if err := s.processNftContract(
+			dbtx,
+			master,
+			inTrans.DstAddr,
+		); err != nil {
+			return err
+		}
+	case tlb.MsgTypeExternalIn:
+		extInTrans := trans.IO.In.AsExternalIn()
 
-	// 	if err := s.processNftContract(
-	// 		dbtx,
-	// 		master,
-	// 		extInTrans.DstAddr,
-	// 	); err != nil {
-	// 		return err
-	// 	}
-	// }
+		if err := s.processNftContract(
+			dbtx,
+			master,
+			extInTrans.DstAddr,
+		); err != nil {
+			return err
+		}
+	}
 
 	return nil
 }

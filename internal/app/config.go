@@ -99,17 +99,16 @@ func InitConfig() (err error) {
 	}
 
 	jsonConfig, err := os.Open("mainnet-config.json")
-	if err != nil {
-		logrus.Error("failed to open config:", err)
+	if err == nil {
+
+		if err := json.NewDecoder(jsonConfig).Decode(&CFG.MAINNET_CONFIG); err != nil {
+			return err
+		}
+	} else {
+		logrus.Error(err)
 		CFG.MAINNET_CONFIG = nil
-		return nil
 	}
 	defer jsonConfig.Close()
-
-	if err := json.NewDecoder(jsonConfig).Decode(&CFG.MAINNET_CONFIG); err != nil {
-		logrus.Errorf("failed to decode config:", err)
-		return nil
-	}
 
 	CFG.Wallet.SEED = strings.Split(os.Getenv("SEED"), " ")
 

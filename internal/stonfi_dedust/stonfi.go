@@ -33,13 +33,13 @@ func StonfiSwap() error {
 		return err
 	}
 
-	stonfiJettonRouterWallet := address.MustParseAddr("EQARULUYsmJq1RiZ-YiH-IJLcAZUVkVff-KBPwEmmaQGH6aC")
-	// ptonJettonWalletAddr := address.MustParseAddr("EQARULUYsmJq1RiZ-YiH-IJLcAZUVkVff-KBPwEmmaQGH6aC")
+	// stonfiJettonRouterWallet := address.MustParseAddr("EQARULUYsmJq1RiZ-YiH-IJLcAZUVkVff-KBPwEmmaQGH6aC")
+	ptonJettonWalletAddr := address.MustParseAddr("EQARULUYsmJq1RiZ-YiH-IJLcAZUVkVff-KBPwEmmaQGH6aC")
 	JetTonJettonWalletAddr := address.MustParseAddr("EQCaAgX3aSw3P7ZBklcRvMFlhBcCnF9HPuTOtfL9fZaZe1YL")
 	stonfiRouterAddr := address.MustParseAddr("EQB3ncyBUTjZUA5EnFKR5_EnOMI9V1tTEAAPaiU71gc4TiUt")
 
 	stonfiSwapBody := structures.StonfiSwapRequest{
-		TokenWallet1: stonfiJettonRouterWallet,
+		TokenWallet1: ptonJettonWalletAddr,
 		MinOut:       tlb.MustFromTON("0"),
 		ToAddress:    wall.Address(),
 		HasRef:       false,
@@ -53,11 +53,11 @@ func StonfiSwap() error {
 
 	transferRequest := structures.JettonTrasfer{
 		QueryId:             rand.Uint64(),
-		Amount:              tlb.MustFromTON("1.8"),
+		Amount:              tlb.MustFromTON("0.2"),
 		Destination:         stonfiRouterAddr,
 		ResponseDestination: stonfiRouterAddr,
 		CustomPayload:       nil,
-		FwdTonAmount:        tlb.MustFromTON("0.3"),
+		FwdTonAmount:        tlb.MustFromTON("0.15"),
 		FwdPayload:          stonfiSwapBodyCell,
 	}
 
@@ -70,7 +70,7 @@ func StonfiSwap() error {
 		context.Background(),
 		wallet.SimpleMessage(
 			JetTonJettonWalletAddr,
-			tlb.MustFromTON("0.5"),
+			tlb.MustFromTON("0.1"),
 			transferRequestCell,
 		),
 		true,

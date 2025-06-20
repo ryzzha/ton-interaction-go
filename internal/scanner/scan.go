@@ -35,6 +35,10 @@ func NewScanner() (*Scanner, error) {
 
 	api := ton.NewAPIClient(client)
 
+	info, err := api.GetMasterchainInfo(context.Background())
+	fmt.Println("Current master seqno:", info.SeqNo)
+	fmt.Println("err:", err)
+
 	var lastBlock storage.Block
 	if err := app.DB.Last(&lastBlock).Error; err != nil {
 		logrus.Debug("not found blocks in DB")
@@ -79,9 +83,12 @@ func (s *Scanner) Listen() {
 		s.Log.Error(err)
 	}
 
-	if s.LastBlock.SeqNo == 0 && app.CFG.START_BLOCK != 0 {
-	} else if s.LastBlock.SeqNo == 0 {
-		s.LastBlock.SeqNo = lastMaster.SeqNo
+	if s.LastBlock.SeqNo == 0 {
+		if app.CFG.START_BLOCK != 0 {
+			s.LastBlock.SeqNo = uint32(app.CFG.START_BLOCK)
+		} else {
+			s.LastBlock.SeqNo = lastMaster.SeqNo
+		}
 	}
 
 	s.LastBlock.Shard = lastMaster.Shard

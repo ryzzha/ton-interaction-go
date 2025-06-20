@@ -36,11 +36,11 @@ func DedustSwap() error {
 
 	tonVaultAddr := address.MustParseAddr("EQDa4VOnTYlLvDJ0gZjNYm5PXfSmmtL6Vs6A_CZEtXCNICq_")
 	// jettonVaultAddr := address.MustParseAddr("EQBeWd2_71HcPmAoTX2i9h0HWehA3_G76lxk90yyXmKXuje7")
-	tonJettonPoolAddr := address.MustParseAddr("EQD0F_w35CTWUxTWRjefoV-400KRA2jX51X4ezIgmUUY_0Qn")
+	tonJettonPoolAddr := address.MustParseAddr("EQA-X_yo3fzzbDbJ_0bzFWKqtRuZFIRa1sJsveZJ1YpViO3r")
 
 	dedustSwap := structures.DedustRequestNativeSwap{
 		QueryId: rand.Uint64(),
-		Amount:  tlb.MustFromTON("1"),
+		Amount:  tlb.MustFromTON("0.25"),
 		SwapStep: structures.DedustSwapStep{
 			PoolAddr: tonJettonPoolAddr,
 			SwapStepParams: structures.DedustSwapStepParams{
@@ -62,16 +62,18 @@ func DedustSwap() error {
 		return err
 	}
 
+	logrus.Info("before send swap to: ", tonVaultAddr)
+
 	if err := wall.Send(
 		context.Background(),
 		wallet.SimpleMessage(
 			tonVaultAddr,
-			tlb.MustFromTON("1.3"),
+			tlb.MustFromTON("0.15"),
 			swapBody,
 		), true,
 	); err != nil {
 		return err
 	}
-
+	logrus.Info("after send swap")
 	return nil
 }
